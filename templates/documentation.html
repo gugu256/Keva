@@ -14,15 +14,19 @@
     <h3>You can use Keva by sending simple HTTP GET requests to the server. Here are the endpoints : </h3>
     <p>Base URL : keva.pancakedev.repl.co.  Replace the db_key argument by your database's key provided earlier.</p>
     <br>
-    <h3><u><code>/new/db_key?key=username&value=gugu256</code></u> Adds a new key-value pair to your database, replace the query arguments by the key and value of your key-value pair<br>Every value is assumed to be a string at first, but you can add the <code>&type=</code> at the end of your query to specifiy the type. The supported types are <code>int</code>, <code>float</code>, <code>str</code>, <code>list</code>, <code>dict</code>, <code>bool</code> and <code>json</code>
+    <h3><u><code>/new/db_key/key/value/type</code></u> Adds a new key-value pair to your database, replace the query arguments by the key and value of your key-value pair<br>You have to add the type of the data you're sending so the server understands it. The supported types are <code>int</code>, <code>float</code>, <code>str</code>, <code>list</code>, <code>dict</code>, <code>bool</code> and <code>json</code>
     <br>
     Example : <br>
-    <code>/new/db_key?key=age&value=29&type=int</code></h3><br>
-    <h3><u><code>/upd/db_key?key=age&value=30&type=int</code></u> Updates a key in your database, it works the exact same way as <code>/new</code> and takes the same arguments</h3><br>
-    <h3><u><code>/get/db_key?key=age</code></u> Returns a JSON object containing the key you provided and its value. If you do not provide any key, this endpoint will return your whole database as a JSON object</h3><br>
-    <h3><u><code>/getkeys/db_key</code></u> Returns a JSON list containing all the keys of your database</h3><br>
-    <h3><u><code>/del/db_key?key=age</code></u> Deletes the key your provided from your database</h3>
+    <code>/new/7w7a6SOkukH996Ax/username/gugu256/str</code></h3><br>
+    <h3><u><code>/upd/db_key/key/value/type</code></u> Updates a key in your database, it works the exact same way as <code>/new</code> and takes the same arguments</h3><br>
+    <h3><u><code>/get/db_key/key</code></u> Returns a JSON object containing the key you provided and its value</h3><br>
+    <h3><u><code>/get_keys/db_key</code></u> Returns a JSON list containing all the keys of your database</h3><br>
+    <h3><u><code>/get_entire/db_key</code></u> Returns a JSON object containing your whole database</h3><br>
+    <h3><u><code>/del/db_key/key</code></u> Deletes the key your provided from your database</h3>
     <h3><u><code>/reset/db_key</code></u> Resets your database to an empty dictionary. Note : this does not delete your database, it just clears it, if you want to delete your database, go to the homepage and click "Delete my database"</h3>
+    <u><h3>Example usage in python : </h3></u>
+    <!--img id="sample_image" src="/static/example.png" alt="Example usage of the Keva database in python"-->
+    <script src="https://gist.github.com/gugu256/696444aecefda1f9f1122c1a85b6dc92.js"></script>
     </div>
 </body>
 </html>
