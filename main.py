@@ -27,94 +27,92 @@ def gen():
 def documentation():
     return render_template("documentation.html")
 
+# ERRORS
+
+
 # ACTUAL DATABASE
 
-@app.route('/new/<db_key>/')
-def new(db_key):
+@app.route('/get/<db_key>/<key>')
+def get(db_key, key):
     try:
-        db = json.loads(open("databases/" + db_key + ".json").read())
-        type = request.args.get('type')
-        key = request.args.get('key')
-        value = request.args.get('value')
-        
-        if type == None:
-            pass
-        elif type == "int":
+        db = json.loads(open("databases/" + db_key + ".json", "r").read())
+        return {key:db[key]}
+    except KeyError:
+        return {"erorr":"key does not exist"}
+    except FileNotFoundError:
+        return {"error":"database does not exist"}
+    except:
+        return {"error":"unknown"}
+
+@app.route('/get_entire/<db_key>')
+def get_entire(db_key):
+    try:
+        db = json.loads(open("databases/" + db_key + ".json", "r").read())
+        return db
+    except FileNotFoundError:
+        return {"error":"database does not exist"}
+    except:
+        return {"error":"unknown"}
+
+@app.route('/get_keys/<db_key>')
+def get_keys(db_key):
+    try:
+        db = json.loads(open("databases/" + db_key + ".json", "r").read())
+        return list(db.keys())
+    except FileNotFoundError:
+        return {"error":"database does not exist"}
+    except:
+        return {"error":"unknown"}
+
+@app.route('/new/<db_key>/<key>/<value>/<type>')
+def new(db_key, key, value, type):
+    try:
+        db = json.loads(open("databases/" + db_key + ".json", "r").read())
+        if type == "int":
             value = int(value)
         elif type == "float":
             value = float(value)
         elif type == "str":
             value = str(value)
-        elif type == "dict" or type == "json" or type == "list" or type == "bool":
+        elif type == "dict" or type == "list" or type == "json" or type == "bool":
             value = json.loads(value)
-
         db[key] = value
         json.dump(db, open("databases/" + db_key + ".json", "w"))
-        
         return {"status":"success"}
     except FileNotFoundError:
-        return {"error":f"database {db_key} does not exist"}
+        return {"error":"database does not exist"}
     except:
         return {"error":"unknown"}
 
-@app.route('/upd/<db_key>/')
-def upd(db_key):
-    return new(db_key)
+@app.route('/upd/<db_key>/<key>/<value>/<type>')
+def upd(db_key, key, value, type):
+    return new(db_key, key, value, type)
 
-@app.route("/get/<db_key>/")
-def get(db_key):
+@app.route('/del/<db_key>/<key>')
+def delete(db_key, key):
     try:
-        db = json.loads(open("databases/" + db_key + ".json").read())
-        key = request.args.get('key')
-        if key != None:
-            try:
-                return {key:db[key]}
-            except:
-                return {"error":f"key {key} does not exist"}
-        else:
-            return db
-    except FileNotFoundError:
-        return {"error":f"database {db_key} does not exist"}
-    except:
-        return {"error":"unknown"}
-
-@app.route("/getkeys/<db_key>/")
-def getkeys(db_key):
-    try:
-        db = json.loads(open("databases/" + db_key + ".json").read())
-        return list(db.keys())
-    except FileNotFoundError:
-        return {"error":f"database {db_key} does not exist"}
-    except:
-        return {"error":"unknown"}
-
-@app.route('/del/<db_key>/')
-def delete(db_key):
-    try:
-        db = json.loads(open("databases/" + db_key + ".json").read())
-        key = request.args.get('key')
-
+        db = json.loads(open("databases/" + db_key + ".json", "r").read())
         del db[key]
         json.dump(db, open("databases/" + db_key + ".json", "w"))
-        
         return {"status":"success"}
+    except KeyError:
+        return {"error":"key does not exist"}
     except FileNotFoundError:
-        return {"error":f"database {db_key} does not exist"}
+        return {"error":"database does not exist"}
     except:
         return {"error":"unknown"}
 
-@app.route('/reset/<db_key>/')
+@app.route('/reset/<db_key>')
 def reset(db_key):
     try:
-        db = json.loads(open("databases/" + db_key + ".json").read())
-
+        db = json.loads(open("databases/" + db_key + ".json", "r").read())
         db = {}
-        
         json.dump(db, open("databases/" + db_key + ".json", "w"))
-        
         return {"status":"success"}
+    except KeyError:
+        return {"error":"key does not exist"}
     except FileNotFoundError:
-        return {"error":f"database {db_key} does not exist"}
+        return {"error":"database does not exist"}
     except:
         return {"error":"unknown"}
 
@@ -130,4 +128,4 @@ def drop(db_key):
     except:
         return {"error":"unknown"}
 
-app.run(host='0.0.0.0', port=81)
+app.run(host='0.0.0.0')
