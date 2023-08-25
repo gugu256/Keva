@@ -38,7 +38,7 @@ def get(db_key, key):
         db = json.loads(open("databases/" + db_key + ".json", "r").read())
         return {key:db[key]}
     except KeyError:
-        return {"erorr":"key does not exist"}
+        return {"error":"key does not exist"}
     except FileNotFoundError:
         return {"error":"database does not exist"}
     except:
@@ -68,6 +68,7 @@ def get_keys(db_key):
 def set(db_key, key, value, type):
     try:
         db = json.loads(open("databases/" + db_key + ".json", "r").read())
+        value = value.replace(";", "/") # replace greek question mark by slash
         if type == "int":
             value = int(value)
         elif type == "float":
