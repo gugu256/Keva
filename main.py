@@ -64,8 +64,8 @@ def get_keys(db_key):
     except:
         return {"error":"unknown"}
 
-@app.route('/new/<db_key>/<key>/<value>/<type>')
-def new(db_key, key, value, type):
+@app.route('/set/<db_key>/<key>/<value>/<type>')
+def set(db_key, key, value, type):
     try:
         db = json.loads(open("databases/" + db_key + ".json", "r").read())
         if type == "int":
@@ -83,10 +83,6 @@ def new(db_key, key, value, type):
         return {"error":"database does not exist"}
     except:
         return {"error":"unknown"}
-
-@app.route('/upd/<db_key>/<key>/<value>/<type>')
-def upd(db_key, key, value, type):
-    return new(db_key, key, value, type)
 
 @app.route('/del/<db_key>/<key>')
 def delete(db_key, key):

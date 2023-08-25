@@ -15,11 +15,10 @@
     <h3>You can use Keva by sending simple HTTP GET requests to the server. Here are the endpoints : </h3>
     <p>Base URL : keva.pancakedev.repl.co.  Replace the db_key argument by your database's key provided earlier.</p>
     <br>
-    <h3><u><code>/new/db_key/key/value/type</code></u> Adds a new key-value pair to your database, replace the query arguments by the key and value of your key-value pair<br>You have to add the type of the data you're sending so the server understands it. The supported types are <code>int</code>, <code>float</code>, <code>str</code>, <code>list</code>, <code>dict</code>, <code>bool</code> and <code>json</code>
+    <h3><u><code>/set/db_key/key/value/type</code></u> Adds/Updates a key-value pair to your database, replace the query arguments by the key and value of your key-value pair<br>You have to add the type of the data you're sending so the server understands it. The supported types are <code>int</code>, <code>float</code>, <code>str</code>, <code>list</code>, <code>dict</code>, <code>bool</code> and <code>json</code>
     <br>
     Example : <br>
     <code>/new/7w7a6SOkukH996Ax/username/gugu256/str</code></h3><br>
-    <h3><u><code>/upd/db_key/key/value/type</code></u> Updates a key in your database, it works the exact same way as <code>/new</code> and takes the same arguments</h3><br>
     <h3><u><code>/get/db_key/key</code></u> Returns a JSON object containing the key you provided and its value</h3><br>
     <h3><u><code>/get_keys/db_key</code></u> Returns a JSON list containing all the keys of your database</h3><br>
     <h3><u><code>/get_entire/db_key</code></u> Returns a JSON object containing your whole database</h3><br>
