@@ -3,6 +3,7 @@ import json
 import hashlib
 import os 
 import random
+import loggr
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
@@ -21,6 +22,7 @@ def gen():
         return gen()
     else:
         json.dump({}, open("databases/" + dbkey + ".json", "w"))
+        loggr.log(f"Database {dbkey} created")
         return render_template("newdb.html", dbkey=dbkey)
 
 @app.route('/docs')
@@ -79,6 +81,7 @@ def set(db_key, key, value, type):
             value = json.loads(value)
         db[key] = value
         json.dump(db, open("databases/" + db_key + ".json", "w"))
+        loggr.log(f"New key '{key}' set in {db_key} database")
         return {"status":"success"}
     except FileNotFoundError:
         return {"error":"database does not exist"}
@@ -105,6 +108,7 @@ def reset(db_key):
         db = json.loads(open("databases/" + db_key + ".json", "r").read())
         db = {}
         json.dump(db, open("databases/" + db_key + ".json", "w"))
+        loggr.log(f"Database {db_key} reset")
         return {"status":"success"}
     except KeyError:
         return {"error":"key does not exist"}
@@ -119,6 +123,7 @@ def reset(db_key):
 def drop(db_key):
     try:
         os.remove("databases/" + db_key + ".json")
+        loggr.log(f"Database {db_key} deleted")
         return {"status":"database deleted successfully"}
     except FileNotFoundError:
         return {"error":f"database {db_key} does not exist"}
